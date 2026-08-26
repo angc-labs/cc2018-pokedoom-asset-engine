@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --font-geist-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-geist-mono: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(225, 29, 72, 0.12), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(168, 85, 247, 0.14), transparent 55%),
+    radial-gradient(800px 420px at 10% 20%, rgba(234, 88, 12, 0.10), transparent 50%),
+    #07080c;
+  color: #f8fafc;
+}
+
+@media (min-width: 1024px) {
+  html.app-locked,
+  body.app-locked {
+    overflow: hidden;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: #ea580c;
+  color: #ffffff;
+}
+
+/* subtle CRT scanline wash used on the framebuffer preview + app shell */
+.scanlines {
+  position: relative;
+}
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.pixel-render {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.checker-bg {
+  background-image: linear-gradient(45deg, #1c202a 25%, transparent 25%),
+    linear-gradient(-45deg, #1c202a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1c202a 75%),
+    linear-gradient(-45deg, transparent 75%, #1c202a 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  background-color: #11141c;
+}
+
+.glow-doom-red {
+  box-shadow: 0 0 25px -5px rgba(225, 29, 72, 0.35);
+}
+
+.glow-gengar-purple {
+  box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.35);
+}
+
+.glow-lava-orange {
+  box-shadow: 0 0 25px -5px rgba(234, 88, 12, 0.35);
+}
+
+.text-gradient-doom {
+  background: linear-gradient(180deg, #ffffff 0%, #fde047 30%, #ea580c 70%, #991b1b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gengar {
+  background: linear-gradient(180deg, #ffffff 0%, #f472b6 30%, #c084fc 65%, #6b21a8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+.blink-dot {
+  animation: blink 1.4s steps(2, jump-none) infinite;
+}
+
+.tab-underline {
+  position: relative;
+}
+.tab-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.18s ease;
+}
+.tab-underline[data-active='true']::after {
+  transform: scaleX(1);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0d13;
+}
+::-webkit-scrollbar-thumb {
+  background: #242938;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b435a;
+}
