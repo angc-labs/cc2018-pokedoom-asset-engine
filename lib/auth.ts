@@ -3,18 +3,23 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import prisma from './prisma';
 
 const getBaseURL = () => {
-  if (process.env.BETTER_AUTH_URL) return process.env.BETTER_AUTH_URL;
-  if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  if (process.env.NODE_ENV === 'production') {
+  const envUrl = process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL;
+  const isProd = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+
+  if (isProd) {
+    if (envUrl && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
+      return envUrl;
+    }
+    if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+      return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+    }
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}`;
+    }
     return 'https://cc2018-pokedoom-asset-engine.vercel.app';
   }
-  return 'http://localhost:3000';
+
+  return envUrl || 'http://localhost:3000';
 };
 
 const trustedOrigins = [
