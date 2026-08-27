@@ -11,6 +11,9 @@ const getBaseURL = () => {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://cc2018-pokedoom-asset-engine.vercel.app';
+  }
   return 'http://localhost:3000';
 };
 
